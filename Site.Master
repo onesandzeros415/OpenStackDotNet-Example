@@ -1,0 +1,94 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="OpenStackDotNet_Test.Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>
+        <asp:ContentPlaceHolder ID="PageTitle" runat="server">
+        </asp:ContentPlaceHolder>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+    <style>
+        body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+    </style>
+    <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet" />
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.js")%>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/bootstrap.min.js")%>">"></script>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <asp:ContentPlaceHolder ID="Head" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="#">
+                        <asp:ContentPlaceHolder ID="ProjectName" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="Default.aspx">Home</a></li>
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Cloud Products<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="CloudFiles.aspx">Cloud Files</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="CloudBlockStorage.aspx">Cloud Block Storage</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="CloudServers.aspx">Cloud Servers</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="CloudNetworks.aspx">Cloud Networks</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="CloudIdentity.aspx">Cloud Identity</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="navbar-form pull-right">
+                            <span style="color: #999999">
+                                <asp:Label runat="server" ID="username_txt" Text="Username : "></asp:Label></span>
+                            <asp:TextBox ID="CIUsernameText" Width="125px" runat="server"></asp:TextBox>
+                            <span style="color: #999999">
+                                <asp:Label runat="server" ID="apikey_txt" Text="APIKey :"></asp:Label></span>
+                            <asp:TextBox ID="CIApiKeyText" Width="125px" TextMode="Password" runat="server"></asp:TextBox>
+                            <asp:Button ID="login_btn" runat="server" CssClass="btn-primary" OnClick="CILogin_Click" Text="Login" />
+                            <asp:Button ID="logout_btn" runat="server" CssClass="btn-primary" OnClick="logout_OnClick" Text="LogOut" />
+                        </div>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <asp:ContentPlaceHolder ID="Body_Content" runat="server">
+            </asp:ContentPlaceHolder>
+            <br />
+            <asp:Label ID="LblInfo" EnableViewState="false" runat="server"></asp:Label>
+            <br />
+            <asp:Label ID="Error" EnableViewState="false" ForeColor="Red" runat="server"></asp:Label>
+            <br />
+        </div>
+        <div>
+        </div>
+    </form>
+</body>
+</html>
