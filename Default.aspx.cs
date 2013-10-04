@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using net.openstack.Providers;
 using net.openstack.Core;
 using net.openstack.Core.Domain;
+using net.openstack.Core.Exceptions.Response;
 using net.openstack.Providers.Rackspace;
+using net.openstack.Providers.Rackspace.Exceptions;
+using net.openstack.Providers.Rackspace.Objects;
 
 namespace OpenStackDotNet_Test
 {
@@ -19,19 +23,19 @@ namespace OpenStackDotNet_Test
             {
                 if (string.IsNullOrEmpty((string)(Session["CloudIdentityUserName"])) & string.IsNullOrEmpty((string)(Session["CloudIdentityApiKey"])))
                 {
-                    DDL_DefaultRegion.Visible = false;
+                    Lbl_DefaultRegion.Visible = false;
                     LblDefaultRegionPrefab.Visible = false;
                     Error.Text = "Before continuing please login and enter Cloud Username and API Key.";
                 }
                 else if (string.IsNullOrEmpty((string)(Session["CloudIdentityUserName"])))
                 {
-                    DDL_DefaultRegion.Visible = false;
+                    Lbl_DefaultRegion.Visible = false;
                     LblDefaultRegionPrefab.Visible = false;
                     Error.Text = "Before continuing please login and please enter Cloud Username.";
                 }
                 else if (string.IsNullOrEmpty((string)(Session["CloudIdentityApiKey"])))
                 {
-                    DDL_DefaultRegion.Visible = false;
+                    Lbl_DefaultRegion.Visible = false;
                     LblDefaultRegionPrefab.Visible = false;
                     Error.Text = "Before continuing please login and please enter API Key.";
                 }
@@ -50,18 +54,22 @@ namespace OpenStackDotNet_Test
             string CloudIdentityUserName = (string)(Session["CloudIdentityUserName"]);
             string CloudIdentityApiKey = (string)(Session["CloudIdentityApiKey"]);
 
-            var identity = new RackspaceImpersonationIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
+            RackspaceCloudIdentity identity = new RackspaceCloudIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
 
             CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider(identity);
 
             IEnumerable<User> ListUsers = identityProvider.ListUsers(identity);
             IEnumerable<Tenant> ListTenants = identityProvider.ListTenants(identity);
+            var DefaultRegion_SB = new StringBuilder();
 
-            DDL_DefaultRegion.DataSource = ListUsers;
-            DDL_DefaultRegion.DataTextField = "DefaultRegion";
-            DDL_DefaultRegion.DataBind();
+            foreach (var i in ListUsers)
+            {
+                DefaultRegion_SB.Append(Path.Combine(i.Username, i.DefaultRegion) + "<br />");
+            }
 
-            DDL_DefaultRegion.Visible = true;
+            Lbl_DefaultRegion.Text = DefaultRegion_SB.ToString();
+
+            Lbl_DefaultRegion.Visible = true;
             LblDefaultRegionPrefab.Visible = true;
         }
         protected void MessageCloudLoginSuccess()

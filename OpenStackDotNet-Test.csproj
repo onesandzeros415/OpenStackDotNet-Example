@@ -39,16 +39,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="openstacknet, Version=1.1.2.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\openstacknet.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleRESTServices, Version=1.0.6.6, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="openstacknet, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\SimpleRESTServices.1.0.6.6\lib\net40\SimpleRESTServices.dll</HintPath>
+      <HintPath>packages\openstack.net.1.2.0.1\lib\net40\openstacknet.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleRESTServices, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\SimpleRESTServices.1.2.0.1\lib\net40\SimpleRESTServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -69,24 +70,45 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\bootstrap-responsive.css" />
-    <Content Include="assets\css\bootstrap-responsive.min.css" />
     <Content Include="assets\css\bootstrap.css" />
-    <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\images\animated-overlay.gif" />
+    <Content Include="assets\css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="assets\css\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="assets\css\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="assets\css\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="assets\css\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="assets\css\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="assets\css\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="assets\css\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="assets\css\images\ui-icons_222222_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_454545_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_888888_256x240.png" />
+    <Content Include="assets\css\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="assets\css\jquery-ui-1.10.3.custom.css" />
     <Content Include="assets\img\glyphicons-halflings-white.png" />
     <Content Include="assets\img\glyphicons-halflings.png" />
+    <Content Include="assets\img\loading.gif" />
     <Content Include="assets\js\bootstrap.js" />
-    <Content Include="assets\js\bootstrap.min.js" />
-    <Content Include="assets\js\jquery.js" />
+    <Content Include="assets\js\jquery-1.10.2.js" />
+    <Content Include="assets\js\jquery-ui-1.10.3.custom.js" />
+    <Content Include="assets\js\openstack.js" />
     <Content Include="assets\js\popup.js" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\openstacknet.dll" />
+    <Content Include="bin\SimpleRESTServices.dll" />
     <Content Include="CloudBlockStorage.aspx" />
     <Content Include="CloudIdentity.aspx" />
     <Content Include="CloudNetworks.aspx" />
     <Content Include="CloudServers.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="CloudFiles.aspx" />
+    <Content Include="packages.config" />
+    <Content Include="test.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\BlockStorage.cs" />
     <Compile Include="CloudBlockStorage.aspx.cs">
       <DependentUpon>CloudBlockStorage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -127,16 +149,29 @@
       <DependentUpon>CloudFiles.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Code\Session.cs" />
+    <Compile Include="App_Code\Identity.cs" />
+    <Compile Include="App_Code\Files.cs" />
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Code\Main.cs" />
+    <Compile Include="App_Code\Networks.cs" />
+    <Compile Include="App_Code\FileUploadHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="App_Code\Servers.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="test.aspx.cs">
+      <DependentUpon>test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="test.aspx.designer.cs">
+      <DependentUpon>test.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -145,9 +180,7 @@
   <ItemGroup>
     <Content Include="Site.Master" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="temp\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Properties\PublishProfiles\OpenstackDotNet-Test.pubxml" />
   </ItemGroup>

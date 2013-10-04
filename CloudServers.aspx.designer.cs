@@ -13,6 +13,24 @@ namespace OpenStackDotNet_Test {
     public partial class CloudServers {
         
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// UpdateProgress1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdateProgress UpdateProgress1;
+        
+        /// <summary>
         /// CS_ddl_Region control.
         /// </summary>
         /// <remarks>
@@ -47,6 +65,24 @@ namespace OpenStackDotNet_Test {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label CS_lbl_Passwd;
+        
+        /// <summary>
+        /// CS_lbl_TimeClock control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CS_lbl_TimeClock;
+        
+        /// <summary>
+        /// CS_lbl_Sessions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CS_lbl_Sessions;
         
         /// <summary>
         /// CS_ddl_ListServers control.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -16,31 +17,64 @@ namespace OpenStackDotNet_Test
 {
     public partial class CloudBlockStorage : System.Web.UI.Page
     {
+        public static string CBSListVolumesSession() { return (string)(HttpContext.Current.Session["CBSListVolumes"]); }
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            Stopwatch TimeClock = new Stopwatch();
+            TimeClock.Start();
+
             string region = CBS_ddl_Region.SelectedItem.ToString();
 
-            HttpContext.Current.Session["CBSListVolumes"] = CBS_ddl_ListVolumes.Text;
+            HttpContext.Current.Session["CBSListVolumes"] = HttpUtility.HtmlEncode(CBS_ddl_ListVolumes.SelectedItem);
             HttpContext.Current.Session["CBSListSnapshots"] = CBS_ddl_ListSnapShots.Text;
+            
+
+            Page.GetPostBackEventReference(CBS_btn_CreateVolume);
 
             try
             {
-                if (string.IsNullOrEmpty((string)(Session["CloudIdentityUserName"])) & string.IsNullOrEmpty((string)(Session["CloudIdentityApiKey"])))
+                if (Page.IsPostBack)
                 {
-                    CBS_lbl_Error.Text = "Before continuing please login and enter Cloud Username and API Key.";
-                }
-                else if (string.IsNullOrEmpty((string)(Session["CloudIdentityUserName"])))
-                {
-                    CBS_lbl_Error.Text = "Before continuing please login and please enter Cloud Username.";
-                }
-                else if (string.IsNullOrEmpty((string)(Session["CloudIdentityApiKey"])))
-                {
-                    CBS_lbl_Error.Text = "Before continuing please login and please enter API Key.";
+
                 }
                 else
                 {
-                    CBS_m_ListVolumes(region);
-                    CBS_m_ListSnapShots(region);
+                    if (string.IsNullOrEmpty((string)(Session["CloudIdentityUserName"])) & string.IsNullOrEmpty((string)(Session["CloudIdentityApiKey"])))
+                    {
+                        CBS_lbl_Error.Text = "Before continuing please login and enter Cloud Username and API Key.";
+                    }
+                    else if (string.IsNullOrEmpty((string)(Session["CloudIdentityUserName"])))
+                    {
+                        CBS_lbl_Error.Text = "Before continuing please login and please enter Cloud Username.";
+                    }
+                    else if (string.IsNullOrEmpty((string)(Session["CloudIdentityApiKey"])))
+                    {
+                        CBS_lbl_Error.Text = "Before continuing please login and please enter API Key.";
+                    }
+                    else
+                    {
+                        StringBuilder listVolumesSB = new StringBuilder();
+                        var listVolumes = BlockStorage.CBS_m_ListVolumes(region);
+                        bindListNetworksDDL(listVolumes, "DisplayName", "Id");
+                        foreach (var volume in listVolumes) { listVolumesSB.Append(volume.Status); }
+                        
+                        CBS_lbl_VolumeStatus.Text = "Volume Status : " + listVolumesSB.ToString();
+
+                        StringBuilder listSnapshotsSB = new StringBuilder();
+                        var listSnapshots = BlockStorage.CBS_m_ListSnapShots(region);
+                        bindListSnapShotsDDL(listSnapshots, "DisplayName", "Id");
+                        foreach (var snapshot in listSnapshots) { listSnapshotsSB.Append(snapshot); }
+                        
+                        CBS_lbl_SnapshotStatus.Text = "Snapshot Status : " + listSnapshotsSB.ToString();
+
+                        CBS_lbl_Info.Text = CBS_m_GetVolumeinfo(BlockStorage.CBS_m_ListVolumes(region));
+
+                        bindListVolumeTypeDDL(BlockStorage.CBS_m_ListVolumesType(region), "Name");
+                        
+                        TimeClock.Stop();
+                        CBS_lbl_TimeClock.Text = TimeClock.Elapsed.ToString();
+                    }
                 }
             }
             catch (Exception ex)
@@ -50,12 +84,57 @@ namespace OpenStackDotNet_Test
         }
         protected void CBS_ddl_Region_SelectChange(object sender, EventArgs e)
         {
+            Stopwatch TimeClock = new Stopwatch();
+            TimeClock.Start();
+
             string region = CBS_ddl_Region.SelectedItem.ToString();
 
             try
             {
-                CBS_m_ListVolumes(region);
-                CBS_m_ListSnapShots(region);
+                StringBuilder listVolumesSB = new StringBuilder();
+                var listVolumes = BlockStorage.CBS_m_ListVolumes(region);
+                bindListNetworksDDL(listVolumes, "DisplayName", "Id");
+                foreach (var volume in listVolumes) { listVolumesSB.Append(volume.Status); }
+
+                CBS_lbl_VolumeStatus.Text = "Volume Status : " + listVolumesSB.ToString();
+
+                StringBuilder listSnapshotsSB = new StringBuilder();
+                var listSnapshots = BlockStorage.CBS_m_ListSnapShots(region);
+                bindListSnapShotsDDL(listSnapshots, "DisplayName", "Id");
+                foreach (var snapshot in listSnapshots) { listSnapshotsSB.Append(snapshot.Status); }
+
+                CBS_lbl_SnapshotStatus.Text = "Snapshot Status : " + listSnapshotsSB.ToString();
+
+                CBS_lbl_Info.Text = CBS_m_GetVolumeinfo(BlockStorage.CBS_m_ListVolumes(region));
+
+                bindListVolumeTypeDDL(BlockStorage.CBS_m_ListVolumesType(region), "Name");
+
+                TimeClock.Stop();
+                CBS_lbl_TimeClock.Text = TimeClock.Elapsed.ToString();
+            }
+            catch (Exception ex)
+            {
+                CBS_m_MsgCatchException(ex.ToString());
+            }
+        }
+        protected void CBS_ddl_ListVolumes_SelectChange(object sender, EventArgs e)
+        {
+            Stopwatch TimeClock = new Stopwatch();
+            TimeClock.Start();
+
+            string region = CBS_ddl_Region.SelectedItem.ToString();
+
+            try
+            {
+                bindListNetworksSessionDDL(BlockStorage.CBS_m_ListVolumes(region), "DisplayName", "Id", CBSListVolumesSession());
+
+                CBS_lbl_Info.Text = CBS_m_GetVolumeinfo(BlockStorage.CBS_m_ListVolumes(region));
+
+                bindListSnapShotsDDL(BlockStorage.CBS_m_ListSnapShots(region), "DisplayName", "Id");
+                bindListVolumeTypeDDL(BlockStorage.CBS_m_ListVolumesType(region), "Name");
+
+                TimeClock.Stop();
+                CBS_lbl_TimeClock.Text = TimeClock.Elapsed.ToString();
             }
             catch (Exception ex)
             {
@@ -64,20 +143,26 @@ namespace OpenStackDotNet_Test
         }
         protected void CBS_btn_CreateVolume_OnClick(object sender, EventArgs e)
         {
+            Stopwatch TimeClock = new Stopwatch();
+            TimeClock.Start();
+
             string CBSCreateVolumeName = HttpUtility.HtmlEncode(CBS_txt_CreateVolumeName.Text);
 
             string region = CBS_ddl_Region.SelectedItem.ToString();
 
             int size = int.Parse(CBSCreateVolumeSizeDDL.SelectedValue);
-            string description = HttpUtility.HtmlEncode(CBS_txt_CreateVolumeDescription.Text);
-            string displayname = HttpUtility.HtmlEncode(CBS_txt_CreateVolumeDisplayname.Text);
-            string volumetype = HttpUtility.HtmlEncode(CBS_ddl_CreateVolumeType.SelectedItem);
+            string description = CBS_txt_CreateVolumeDescription.Text;
+            string displayname = CBS_txt_CreateVolumeDisplayname.Text;
+            string volumetype = CBS_ddl_ListVolumeType.SelectedItem.ToString();
 
             try
             {
-                CBS_m_CreateVolume(size, description, displayname, volumetype, region);
+                BlockStorage.CBS_m_CreateVolume(size, description, displayname, volumetype, region);
                 CBS_m_MsgCreateVolumeSuccess();
-                CBS_m_ListSnapShots(region);
+                bindListSnapShotsDDL(BlockStorage.CBS_m_ListSnapShots(region), "DisplayName", "Id");
+
+                TimeClock.Stop();
+                CBS_lbl_TimeClock.Text = TimeClock.Elapsed.ToString();
             }
             catch (Exception ex)
             {
@@ -86,15 +171,21 @@ namespace OpenStackDotNet_Test
         }
         protected void CBS_btn_DeleteVolume_OnClick(object sender, EventArgs e)
         {
-            string region = CBS_ddl_Region.SelectedItem.ToString();
+            Stopwatch TimeClock = new Stopwatch();
+            TimeClock.Start();
 
-            string CBSDeleteVolumeID = HttpUtility.HtmlEncode(CBS_ddl_ListVolumes.SelectedValue);
+            string region = CBS_ddl_Region.SelectedItem.ToString();
+            string CBSDeleteVolumeID = CBS_ddl_ListVolumes.SelectedValue;
 
             try
             {
-                CBS_m_DeleteVolume(CBSDeleteVolumeID, region);
-                CBS_m_ListVolumes(region);
+                BlockStorage.CBS_m_DeleteVolume(CBSDeleteVolumeID, region);
+                BlockStorage.CBS_m_ListVolumes(region);
+                BlockStorage.CBS_m_ListVolumesType(region);
                 CBS_m_MsgDeleteVolumeSuccess();
+
+                TimeClock.Stop();
+                CBS_lbl_TimeClock.Text = TimeClock.Elapsed.ToString();
             }
             catch (Exception ex)
             {
@@ -103,11 +194,17 @@ namespace OpenStackDotNet_Test
         }
         protected void CBS_btn_ListSnapShots_OnClick(object sender, EventArgs e)
         {
+            Stopwatch TimeClock = new Stopwatch();
+            TimeClock.Start();
+
             string region = CBS_ddl_Region.SelectedItem.ToString();
 
             try
             {
-                CBS_m_ListSnapShots(region);
+                bindListSnapShotsDDL(BlockStorage.CBS_m_ListSnapShots(region), "DisplayName", "Id");
+
+                TimeClock.Stop();
+                CBS_lbl_TimeClock.Text = TimeClock.Elapsed.ToString();
             }
             catch (Exception ex)
             {
@@ -116,17 +213,22 @@ namespace OpenStackDotNet_Test
         }
         protected void CBS_btn_CreateSnapShot_OnClick(object sender, EventArgs e)
         {
-            string region = CBS_ddl_Region.SelectedItem.ToString();
+            Stopwatch TimeClock = new Stopwatch();
+            TimeClock.Start();
 
-            string CBSCreateSnapShotID = HttpUtility.HtmlEncode(CBS_ddl_ListVolumes.SelectedValue);
-            string description = HttpUtility.HtmlEncode(CBS_txt_SnapShotDescription.Text);
-            string displayname = HttpUtility.HtmlEncode(CBS_Txt_SnapshotDisplayName.Text);
+            string region = CBS_ddl_Region.SelectedItem.ToString();
+            string CBSCreateSnapShotID = CBS_ddl_ListVolumes.SelectedValue;
+            string description = CBS_txt_SnapShotDescription.Text;
+            string displayname = CBS_Txt_SnapshotDisplayName.Text;
 
             try
             {
-                CBS_m_CreateSnapShot(CBSCreateSnapShotID, displayname, description, region);
-                CBS_m_ListSnapShots(region);
+                BlockStorage.CBS_m_CreateSnapShot(CBSCreateSnapShotID, displayname, description, region);
+                bindListSnapShotsDDL(BlockStorage.CBS_m_ListSnapShots(region), "DisplayName", "Id");
                 CBS_m_MsgCreateSnapShotSuccess();
+
+                TimeClock.Stop();
+                CBS_lbl_TimeClock.Text = TimeClock.Elapsed.ToString();
             }
             catch (Exception ex)
             {
@@ -135,39 +237,41 @@ namespace OpenStackDotNet_Test
         }
         protected void CBS_btn_DeleteSnapShot_Click(object sender, EventArgs e)
         {
-            string CBSDeleteSnapShotID = HttpUtility.HtmlEncode(CBS_ddl_ListSnapShots.SelectedValue);
+            Stopwatch TimeClock = new Stopwatch();
+            TimeClock.Start();
 
+            string CBSDeleteSnapShotID = CBS_ddl_ListSnapShots.SelectedValue;
             string region = CBS_ddl_Region.SelectedItem.ToString();
 
             try
             {
-                CBS_m_DeleteSnapShot(CBSDeleteSnapShotID, region);
-                CBS_m_ListSnapShots(region);
+                BlockStorage.CBS_m_DeleteSnapShot(CBSDeleteSnapShotID, region);
+                bindListSnapShotsDDL(BlockStorage.CBS_m_ListSnapShots(region), "DisplayName", "Id");
                 CBS_m_MsgDeleteSnapShotSuccess();
+
+                TimeClock.Stop();
+                CBS_lbl_TimeClock.Text = TimeClock.Elapsed.ToString();
             }
             catch (Exception ex)
             {
                 CBS_m_MsgCatchException(ex.ToString());
             }
         }
-        protected void CBS_m_ListVolumes(string dcregion)
+        protected CloudBlockStorageProvider blockStorageProvider()
         {
             string CloudIdentityUserName = (string)(Session["CloudIdentityUserName"]);
             string CloudIdentityApiKey = (string)(Session["CloudIdentityApiKey"]);
 
-            var identity = new RackspaceImpersonationIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
+            RackspaceImpersonationIdentity identity = new RackspaceImpersonationIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
 
-            CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider(identity);
             CloudBlockStorageProvider CloudBlockStorageProvider = new net.openstack.Providers.Rackspace.CloudBlockStorageProvider(identity);
 
-            IEnumerable<Volume> ListVolumes = CloudBlockStorageProvider.ListVolumes(dcregion);
+            return CloudBlockStorageProvider;
+        }
 
-            CBS_ddl_ListVolumes.DataSource = ListVolumes;
-            CBS_ddl_ListVolumes.DataTextField = "DisplayName";
-            CBS_ddl_ListVolumes.DataValueField = "Id";
-            CBS_ddl_ListVolumes.DataBind();
-
-            var GetVolumeID = ListVolumes.ToList();
+        protected string CBS_m_GetVolumeinfo(IEnumerable<Volume> dataSource)
+        {
+            var GetVolumeID = dataSource.ToList();
             var GetVolumeID_SB = new StringBuilder();
 
             foreach (var i in GetVolumeID)
@@ -187,98 +291,35 @@ namespace OpenStackDotNet_Test
                 }
             }
 
-            CBS_lbl_Info.Text = GetVolumeID_SB.ToString();
+            return GetVolumeID_SB.ToString();
         }
-        protected void CBS_m_ListVolumesType(string dcregion)
+        protected void bindListNetworksDDL(object dataSource, string dataTextField, string dataValueField)
         {
-            string CloudIdentityUserName = (string)(Session["CloudIdentityUserName"]);
-            string CloudIdentityApiKey = (string)(Session["CloudIdentityApiKey"]);
-
-            var identity = new RackspaceImpersonationIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
-
-            CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider(identity);
-            CloudBlockStorageProvider CloudBlockStorageProvider = new net.openstack.Providers.Rackspace.CloudBlockStorageProvider(identity);
-
-            IEnumerable<VolumeType> ListVolumeTypes = CloudBlockStorageProvider.ListVolumeTypes(dcregion);
-
-            CBS_ddl_CreateVolumeType.DataSource = ListVolumeTypes;
-            CBS_ddl_CreateVolumeType.DataTextField = "name";
-            CBS_ddl_CreateVolumeType.DataBind();
-
-            CBS_grid_Results2.DataSource = ListVolumeTypes;
-            CBS_grid_Results2.DataBind();
+            CBS_ddl_ListVolumes.DataSource = dataSource;
+            CBS_ddl_ListVolumes.DataTextField = dataTextField;
+            CBS_ddl_ListVolumes.DataValueField = dataValueField;
+            CBS_ddl_ListVolumes.DataBind();
         }
-        protected void CBS_m_ListSnapShots(string dcregion)
+        protected void bindListNetworksSessionDDL(object dataSource, string dataTextField, string dataValueField, string selectedSessionIndex)
         {
-            string CloudIdentityUserName = (string)(Session["CloudIdentityUserName"]);
-            string CloudIdentityApiKey = (string)(Session["CloudIdentityApiKey"]);
-
-            var identity = new RackspaceImpersonationIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
-
-            CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider(identity);
-            CloudBlockStorageProvider CloudBlockStorageProvider = new net.openstack.Providers.Rackspace.CloudBlockStorageProvider(identity);
-
-            IEnumerable<Snapshot> ListSnapshots = CloudBlockStorageProvider.ListSnapshots(dcregion);
-
-            CBS_ddl_ListSnapShots.DataSource = ListSnapshots;
-            CBS_ddl_ListSnapShots.DataTextField = "DisplayName";
-            CBS_ddl_ListSnapShots.DataValueField = "Id";
+            CBS_ddl_ListVolumes.DataSource = dataSource;
+            CBS_ddl_ListVolumes.DataTextField = dataTextField;
+            CBS_ddl_ListVolumes.DataValueField = dataValueField;
+            CBS_ddl_ListVolumes.SelectedIndex = CBS_ddl_ListVolumes.Items.IndexOf(CBS_ddl_ListVolumes.Items.FindByText(selectedSessionIndex));
+            CBS_ddl_ListVolumes.DataBind();
+        }
+        protected void bindListSnapShotsDDL(object dataSource, string dataTextField, string dataValueField)
+        {
+            CBS_ddl_ListSnapShots.DataSource = dataSource;
+            CBS_ddl_ListSnapShots.DataTextField = dataTextField;
+            CBS_ddl_ListSnapShots.DataValueField = dataValueField;
             CBS_ddl_ListSnapShots.DataBind();
-
-            CBS_grid_Results2.DataSource = ListSnapshots;
-            CBS_grid_Results2.DataBind();
         }
-        protected void CBS_m_CreateSnapShot(string snapshotid, string displayName, string displayDescription, string dcregion, bool force = false)
+        protected void bindListVolumeTypeDDL(object dataSource, string dataTextField)
         {
-            string CloudIdentityUserName = (string)(Session["CloudIdentityUserName"]);
-            string CloudIdentityApiKey = (string)(Session["CloudIdentityApiKey"]);
-
-            var identity = new RackspaceImpersonationIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
-
-            CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider(identity);
-            CloudBlockStorageProvider CloudBlockStorageProvider = new net.openstack.Providers.Rackspace.CloudBlockStorageProvider(identity);
-
-            var CreateSnapShot = CloudBlockStorageProvider.CreateSnapshot(snapshotid, force, displayName, displayDescription, dcregion);
-        }
-        protected void CBS_m_DeleteSnapShot(string snapshotid, string dcregion)
-        {
-            string CloudIdentityUserName = (string)(Session["CloudIdentityUserName"]);
-            string CloudIdentityApiKey = (string)(Session["CloudIdentityApiKey"]);
-
-            var identity = new RackspaceImpersonationIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
-
-            CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider(identity);
-            CloudBlockStorageProvider CloudBlockStorageProvider = new net.openstack.Providers.Rackspace.CloudBlockStorageProvider(identity);
-
-            var DeleteSnapShot = CloudBlockStorageProvider.DeleteSnapshot(snapshotid, dcregion);
-        }
-        protected void CBS_m_CreateVolume(int size, string display_description, string displayname, string volumetype, string dcregion)
-        {
-            string CloudIdentityUserName = (string)(Session["CloudIdentityUserName"]);
-            string CloudIdentityApiKey = (string)(Session["CloudIdentityApiKey"]);
-
-            var identity = new RackspaceImpersonationIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
-
-            CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider(identity);
-            CloudBlockStorageProvider CloudBlockStorageProvider = new net.openstack.Providers.Rackspace.CloudBlockStorageProvider(identity);
-
-            var CBSCreateVolume = CloudBlockStorageProvider.CreateVolume(size, display_description, displayname, null, volumetype, dcregion);
-
-            CBS_m_ListVolumes(dcregion);
-        }
-        protected void CBS_m_DeleteVolume(string volumeid, string dcregion)
-        {
-            string CloudIdentityUserName = (string)(Session["CloudIdentityUserName"]);
-            string CloudIdentityApiKey = (string)(Session["CloudIdentityApiKey"]);
-
-            var identity = new RackspaceImpersonationIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
-
-            CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider(identity);
-            CloudBlockStorageProvider CloudBlockStorageProvider = new net.openstack.Providers.Rackspace.CloudBlockStorageProvider(identity);
-
-            var CBSDeleteVolume = CloudBlockStorageProvider.DeleteVolume(volumeid, dcregion);
-
-            CBS_m_ListVolumes(dcregion);
+            CBS_ddl_ListVolumeType.DataSource = dataSource;
+            CBS_ddl_ListVolumeType.DataTextField = dataTextField;
+            CBS_ddl_ListVolumeType.DataBind();
         }
         protected void CBS_m_MsgListVolumeSuccess()
         {

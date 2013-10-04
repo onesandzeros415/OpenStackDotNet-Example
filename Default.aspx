@@ -47,9 +47,9 @@
             
             <asp:Label ID="LblInfo" EnableViewState="false" runat="server"></asp:Label>
             <br />
-            <asp:Label ID="LblDefaultRegionPrefab" runat="server" Text="Your Default Region is:" />
+            <asp:Label ID="LblDefaultRegionPrefab" runat="server" Text="Default Region is:<br />" />
             <br />
-            <asp:DropDownList ID="DDL_DefaultRegion" runat="server" />
+            <asp:Label ID="Lbl_DefaultRegion" runat="server" />
             <br />
             <asp:Label ID="Error" EnableViewState="false" ForeColor="Red" runat="server"></asp:Label>
             <br />

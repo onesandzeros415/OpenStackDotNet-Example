@@ -31,13 +31,13 @@ namespace OpenStackDotNet_Test {
         protected global::System.Web.UI.WebControls.Label LblDefaultRegionPrefab;
         
         /// <summary>
-        /// DDL_DefaultRegion control.
+        /// Lbl_DefaultRegion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DDL_DefaultRegion;
+        protected global::System.Web.UI.WebControls.Label Lbl_DefaultRegion;
         
         /// <summary>
         /// Error control.

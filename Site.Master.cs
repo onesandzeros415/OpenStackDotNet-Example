@@ -8,6 +8,7 @@ using net.openstack.Providers;
 using net.openstack.Core;
 using net.openstack.Core.Domain;
 using net.openstack.Providers.Rackspace;
+using net.openstack.Providers.Rackspace.Objects;
 
 namespace OpenStackDotNet_Test
 {
@@ -44,13 +45,11 @@ namespace OpenStackDotNet_Test
 
             try
             {
-                CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider();
+                RackspaceCloudIdentity identity = new RackspaceCloudIdentity() { Username = CloudIdentityUserName, APIKey = CloudIdentityApiKey };
 
-                var userAccess = identityProvider.Authenticate(new RackspaceImpersonationIdentity
-                {
-                    Username = CloudIdentityUserName,
-                    APIKey = CloudIdentityApiKey
-                });
+                CloudIdentityProvider identityProvider = new net.openstack.Providers.Rackspace.CloudIdentityProvider(identity);
+
+                var userAccess = Identity.identityProvider().Authenticate(identity);
 
                 if (userAccess.User != null)
                 {

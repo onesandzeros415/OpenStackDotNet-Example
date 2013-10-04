@@ -13,6 +13,24 @@ namespace OpenStackDotNet_Test {
     public partial class CloudBlockStorage {
         
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// UpdateProgress1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdateProgress UpdateProgress1;
+        
+        /// <summary>
         /// CBS_ddl_Region control.
         /// </summary>
         /// <remarks>
@@ -40,6 +58,15 @@ namespace OpenStackDotNet_Test {
         protected global::System.Web.UI.WebControls.Label CBS_lbl_Error;
         
         /// <summary>
+        /// CBS_lbl_TimeClock control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CBS_lbl_TimeClock;
+        
+        /// <summary>
         /// CBS_ddl_ListVolumes control.
         /// </summary>
         /// <remarks>
@@ -58,6 +85,15 @@ namespace OpenStackDotNet_Test {
         protected global::System.Web.UI.WebControls.Button CBS_btn_DeleteVolume;
         
         /// <summary>
+        /// CBS_lbl_VolumeStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CBS_lbl_VolumeStatus;
+        
+        /// <summary>
         /// CBS_ddl_ListSnapShots control.
         /// </summary>
         /// <remarks>
@@ -74,6 +110,15 @@ namespace OpenStackDotNet_Test {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button CBS_btn_DeleteSnapShot;
+        
+        /// <summary>
+        /// CBS_lbl_SnapshotStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CBS_lbl_SnapshotStatus;
         
         /// <summary>
         /// CBS_txt_CreateVolumeName control.
@@ -112,13 +157,13 @@ namespace OpenStackDotNet_Test {
         protected global::System.Web.UI.WebControls.DropDownList CBSCreateVolumeSizeDDL;
         
         /// <summary>
-        /// CBS_ddl_CreateVolumeType control.
+        /// CBS_ddl_ListVolumeType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList CBS_ddl_CreateVolumeType;
+        protected global::System.Web.UI.WebControls.DropDownList CBS_ddl_ListVolumeType;
         
         /// <summary>
         /// CBS_btn_CreateVolume control.

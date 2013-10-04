@@ -13,6 +13,24 @@ namespace OpenStackDotNet_Test {
     public partial class CloudNetworks {
         
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// UpdateProgress1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdateProgress UpdateProgress1;
+        
+        /// <summary>
         /// CN_ddl_Region control.
         /// </summary>
         /// <remarks>
@@ -38,6 +56,15 @@ namespace OpenStackDotNet_Test {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label CN_lbl_Info;
+        
+        /// <summary>
+        /// CN_lbl_TimeClock control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CN_lbl_TimeClock;
         
         /// <summary>
         /// CN_txt_CreateNetworkName control.

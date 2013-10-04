@@ -13,6 +13,33 @@ namespace OpenStackDotNet_Test {
     public partial class CloudFiles {
         
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// UpdateProgress1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdateProgress UpdateProgress1;
+        
+        /// <summary>
+        /// lblinfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblinfo;
+        
+        /// <summary>
         /// CF_ddl_Region control.
         /// </summary>
         /// <remarks>
@@ -40,6 +67,24 @@ namespace OpenStackDotNet_Test {
         protected global::System.Web.UI.WebControls.Label CF_lbl_Info;
         
         /// <summary>
+        /// CF_lbl_AccountContainerInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CF_lbl_AccountContainerInfo;
+        
+        /// <summary>
+        /// CF_lbl_ContainerObjectInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CF_lbl_ContainerObjectInfo;
+        
+        /// <summary>
         /// CF_lbl_Error control.
         /// </summary>
         /// <remarks>
@@ -47,6 +92,24 @@ namespace OpenStackDotNet_Test {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label CF_lbl_Error;
+        
+        /// <summary>
+        /// CF_lbl_TimeClock control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CF_lbl_TimeClock;
+        
+        /// <summary>
+        /// CF_lbl_EnableDisableCDN control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CF_lbl_EnableDisableCDN;
         
         /// <summary>
         /// CF_ddl_ListContainer control.
@@ -65,6 +128,15 @@ namespace OpenStackDotNet_Test {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button CF_btn_DeleteContainer;
+        
+        /// <summary>
+        /// CF_chk_deleteallobjects control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CF_chk_deleteallobjects;
         
         /// <summary>
         /// CF_btn_EnableCDNOnContainer control.
@@ -94,6 +166,15 @@ namespace OpenStackDotNet_Test {
         protected global::System.Web.UI.WebControls.DropDownList CF_ddl_ListContainerContents;
         
         /// <summary>
+        /// lblClicked control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblClicked;
+        
+        /// <summary>
         /// CF_btn_DeleteContainerObject control.
         /// </summary>
         /// <remarks>
@@ -119,6 +200,33 @@ namespace OpenStackDotNet_Test {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button CF_btn_GetObjectSaveToFileBrowserPrompt;
+        
+        /// <summary>
+        /// CF_ddl_CopyListContainer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList CF_ddl_CopyListContainer;
+        
+        /// <summary>
+        /// CF_btn_CopyOBJ control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CF_btn_CopyOBJ;
+        
+        /// <summary>
+        /// CF_btn_MoveOBJ control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CF_btn_MoveOBJ;
         
         /// <summary>
         /// CF_txt_CreateContainer control.
@@ -157,22 +265,13 @@ namespace OpenStackDotNet_Test {
         protected global::System.Web.UI.WebControls.Button CF_btn_CloudFilesUpload;
         
         /// <summary>
-        /// CF_lbl_AccountDetails control.
+        /// CF_lbl_ContainerCDNDetails control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label CF_lbl_AccountDetails;
-        
-        /// <summary>
-        /// CF_lbl_ContainerDetails control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label CF_lbl_ContainerDetails;
+        protected global::System.Web.UI.WebControls.Label CF_lbl_ContainerCDNDetails;
         
         /// <summary>
         /// CF_grid_Results control.
@@ -209,32 +308,5 @@ namespace OpenStackDotNet_Test {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label CF_lbl_FailedStatus;
-        
-        /// <summary>
-        /// CF_lbl_ContainerObjectDetails control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label CF_lbl_ContainerObjectDetails;
-        
-        /// <summary>
-        /// CF_lbl_ContainerCDNDetails control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label CF_lbl_ContainerCDNDetails;
-        
-        /// <summary>
-        /// CF_lbl_EnableDisableCDN control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label CF_lbl_EnableDisableCDN;
     }
 }

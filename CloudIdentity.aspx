@@ -28,35 +28,89 @@
         <div class="span3"></div>
     </div>
     <div class="row">
-        <div class="span3">
-            <br />
-            <asp:Label ID="CI_lbl_Info" EnableViewState="false" runat="server"></asp:Label>
-            <br />
-            <asp:Label ID="CI_lbl_Error" EnableViewState="false" ForeColor="Red" runat="server"></asp:Label>
-            <br />
-        </div>
-        <div class="span3">
-            Users:
-            <br />
-            <asp:DropDownList ID="CI_ddl_ListUsers" runat="server"></asp:DropDownList>
-            <br />
-            Account/DDI #:
-            <asp:DropDownList ID="CI_ddl_ListTenants" runat="server"></asp:DropDownList>
-            <br />
-            List Users:
-            <br />
-            <asp:GridView ID="CI_grid_Results1" runat="server"></asp:GridView>
-            <br />
-            List Roles:
-            <br />
-            <asp:GridView ID="CI_grid_Results2" runat="server"></asp:GridView>
-            <br />
-            List Tenants:
-            <br />
-            <asp:GridView ID="CI_grid_Results3" runat="server"></asp:GridView>
-            <br />
-        </div>
-        <div class="span3">
-        </div>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
+                    <ProgressTemplate>
+                        <center>
+                        <img src="assets/img/loading.gif" />
+                        <br />
+                        <font color=red>Processing Data...</font>
+                    </center>
+                    </ProgressTemplate>
+                </asp:UpdateProgress>
+                <div class="span4">
+                    <br />
+                    <asp:Label ID="CI_lbl_Info" EnableViewState="false" runat="server"></asp:Label>
+                    <br />
+                    <asp:Label ID="CI_lbl_Error" EnableViewState="false" ForeColor="Red" runat="server"></asp:Label>
+                    <br />
+                </div>
+                <div class="span4">
+                    <h1>Existing Users</h1>
+                    <br />
+                    Users :
+                    <br />
+                    <asp:DropDownList ID="CI_ddl_ListUsers" OnSelectedIndexChanged="CI_ddl_ListUsers_SelectChange" AutoPostBack="true" runat="server"></asp:DropDownList>
+                    <br />
+                    <asp:Button ID="CI_btn_DeleteUser" CssClass="btn-primary" runat="server" OnClick="CI_btn_DeleteUser_OnClick" OnClientClick="javascript:return confirmAction(this.name);" Text="Delete User" />
+                    <br />
+                    <br />
+                    Roles Assigned To User : 
+                    <asp:DropDownList ID="CI_ddl_ListRoleUserIn" runat="server"></asp:DropDownList>
+                    <br />
+                    <asp:Button ID="CI_btn_RemoveRoleFromUser" CssClass="btn-primary" runat="server" OnClick="CI_btn_RemoveRoleFromUser_OnClick" OnClientClick="javascript:return confirmAction(this.name);" Text="Remove Role From User" />
+                    <br />
+                    <br />
+                    Available Roles :
+                    <asp:DropDownList ID="CI_ddl_ListRoles" runat="server"></asp:DropDownList>
+                    <br />
+                    <asp:Button ID="CI_btn_AddRoleToUser" CssClass="btn-primary" runat="server" OnClick="CI_btn_AddRoleToUser_OnClick" OnClientClick="javascript:return confirmAction(this.name);" Text="Add Role To User" />
+                    <br />
+                    <br />
+                    List Users:
+                    <br />
+                    <asp:GridView ID="CI_grid_Results1" runat="server"></asp:GridView>
+                    <br />
+                    List Roles:
+                    <br />
+                    <asp:GridView ID="CI_grid_Results2" runat="server"></asp:GridView>
+                    <br />
+                    List Tenants:
+                    <br />
+                    <asp:GridView ID="CI_grid_Results3" runat="server"></asp:GridView>
+                    <br />
+                </div>
+                <div class="span4">
+                    <h1>Create New User</h1>
+                    <br />
+                    Username : 
+                    <br />
+                    <asp:TextBox ID="CI_txt_NewUser" runat="server"></asp:TextBox>
+                    <br />
+                    Password : 
+                    <br />
+                    <asp:TextBox ID="CI_txt_Passwd" runat="server"></asp:TextBox>
+                    <br />
+                    Email : 
+                    <br />
+                    <asp:TextBox ID="CI_txt_Email" runat="server"></asp:TextBox>
+                    <br />
+                    <asp:Button ID="CI_btn_NewUser" CssClass="btn-primary" runat="server" OnClick="CI_btn_NewUser_OnClick" OnClientClick="javascript:return confirmAction(this.name);" Text="Create User" />
+                    <br />
+                    <br />
+                </div>
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="CI_ddl_ListUsers" />
+                <asp:AsyncPostBackTrigger ControlID="CI_btn_DeleteUser" />
+                <asp:AsyncPostBackTrigger ControlID="CI_btn_RemoveRoleFromUser" />
+                <asp:AsyncPostBackTrigger ControlID="CI_btn_AddRoleToUser" />
+                <asp:AsyncPostBackTrigger ControlID="CI_btn_NewUser" />
+            </Triggers>
+        </asp:UpdatePanel>
+    </div>
+    <div id="dialogContent">
+        <p>Click ok to accept</p>
     </div>
 </asp:Content>

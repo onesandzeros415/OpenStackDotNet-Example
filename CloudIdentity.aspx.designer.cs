@@ -13,6 +13,24 @@ namespace OpenStackDotNet_Test {
     public partial class CloudIdentity {
         
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// UpdateProgress1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdateProgress UpdateProgress1;
+        
+        /// <summary>
         /// CI_lbl_Info control.
         /// </summary>
         /// <remarks>
@@ -40,13 +58,49 @@ namespace OpenStackDotNet_Test {
         protected global::System.Web.UI.WebControls.DropDownList CI_ddl_ListUsers;
         
         /// <summary>
-        /// CI_ddl_ListTenants control.
+        /// CI_btn_DeleteUser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList CI_ddl_ListTenants;
+        protected global::System.Web.UI.WebControls.Button CI_btn_DeleteUser;
+        
+        /// <summary>
+        /// CI_ddl_ListRoleUserIn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList CI_ddl_ListRoleUserIn;
+        
+        /// <summary>
+        /// CI_btn_RemoveRoleFromUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CI_btn_RemoveRoleFromUser;
+        
+        /// <summary>
+        /// CI_ddl_ListRoles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList CI_ddl_ListRoles;
+        
+        /// <summary>
+        /// CI_btn_AddRoleToUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CI_btn_AddRoleToUser;
         
         /// <summary>
         /// CI_grid_Results1 control.
@@ -74,5 +128,41 @@ namespace OpenStackDotNet_Test {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView CI_grid_Results3;
+        
+        /// <summary>
+        /// CI_txt_NewUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox CI_txt_NewUser;
+        
+        /// <summary>
+        /// CI_txt_Passwd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox CI_txt_Passwd;
+        
+        /// <summary>
+        /// CI_txt_Email control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox CI_txt_Email;
+        
+        /// <summary>
+        /// CI_btn_NewUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CI_btn_NewUser;
     }
 }

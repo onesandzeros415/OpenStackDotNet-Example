@@ -28,43 +28,66 @@
         <div class="span3"></div>
     </div>
     <div class="row">
-        <div class="span4">
-            <div>
-                Please Select Region:
-                <br />
-                <asp:DropDownList ID="CN_ddl_Region" OnSelectedIndexChanged="CN_ddl_Region_SelectChange" AutoPostBack="true" runat="server">
-                    <asp:ListItem Text="DFW" Value="dfw"></asp:ListItem>
-                    <asp:ListItem Text="ORD" Value="ord"></asp:ListItem>
-                    <asp:ListItem Text="SYD" Value="syd"></asp:ListItem>
-                    <asp:ListItem Text="IAD" Value="iad"></asp:ListItem>
-                </asp:DropDownList>
-            </div>
-            <br />
-            <br />
-            <asp:Label ID="CN_lbl_Error" ForeColor="Red" runat="server"></asp:Label>
-            <br />
-            <asp:Label ID="CN_lbl_Info" runat="server"></asp:Label>
-            <br />
-        </div>
-        <div class="span4">
-            Create A Network:
-            <br />
-            <asp:TextBox ID="CN_txt_CreateNetworkName" Text="net-sdk-test-network" runat="server"></asp:TextBox>
-            <asp:TextBox ID="CN_txt_CIDRRange" Text="192.0.2.0/24" runat="server"></asp:TextBox>
-            <asp:Button ID="CN_btn_CreateNetwork" runat="server" CssClass="btn-primary" OnClick="CN_btn_CreateNetwork_OnClick" Text="Create Network" />
-        </div>
-        <div class="span4">
-            List of Networks:
-            <br />
-            <asp:DropDownList ID="CN_ddl_ListNetworks" OnSelectedIndexChanged="CN_ddl_ListNetworks_SelectChange" AutoPostBack="true" runat="server"></asp:DropDownList>
-            <asp:Button ID="CN_btn_DeleteNetwork" runat="server" CssClass="btn-primary" OnClick="CN_btn_DeleteNetwork_OnClick" Text="Delete Network" />
-            <br />
-            <br />
-            <asp:Label ID="CN_lbl_networkinfo" runat="server"></asp:Label>
-            <br />
-            <br />
-            <asp:GridView ID="CN_grid_Results" runat="server"></asp:GridView>
-            <br />
-        </div>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
+                    <ProgressTemplate>
+                        <center>
+                        <img src="assets/img/loading.gif" />
+                        <br />
+                        <font color=red>Processing Data...</font>
+                    </center>
+                    </ProgressTemplate>
+                </asp:UpdateProgress>
+                <div class="span4">
+                    <div>
+                        Please Select Region:
+                        <br />
+                        <asp:DropDownList ID="CN_ddl_Region" OnSelectedIndexChanged="CN_ddl_Region_SelectChange" AutoPostBack="true" runat="server">
+                            <asp:ListItem Text="DFW" Value="dfw"></asp:ListItem>
+                            <asp:ListItem Text="ORD" Value="ord"></asp:ListItem>
+                            <asp:ListItem Text="SYD" Value="syd"></asp:ListItem>
+                            <asp:ListItem Text="IAD" Value="iad"></asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                    <br />
+                    <br />
+                    <asp:Label ID="CN_lbl_Error" ForeColor="Red" runat="server"></asp:Label>
+                    <br />
+                    <asp:Label ID="CN_lbl_Info" runat="server"></asp:Label>
+                    <br />
+                    <asp:Label ID="CN_lbl_TimeClock" EnableViewState="false" runat="server"></asp:Label>
+                    <br />
+                </div>
+                <div class="span4">
+                    Create A Network:
+                    <br />
+                    <asp:TextBox ID="CN_txt_CreateNetworkName" Text="net-sdk-test-network" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="CN_txt_CIDRRange" Text="192.0.2.0/24" runat="server"></asp:TextBox>
+                    <asp:Button ID="CN_btn_CreateNetwork" runat="server" CssClass="btn-primary" OnClick="CN_btn_CreateNetwork_OnClick" OnClientClick="javascript:return confirmAction(this.name);" Text="Create Network" />
+                </div>
+                <div class="span4">
+                    List of Networks:
+                    <br />
+                    <asp:DropDownList ID="CN_ddl_ListNetworks" OnSelectedIndexChanged="CN_ddl_ListNetworks_SelectChange" AutoPostBack="true" runat="server"></asp:DropDownList>
+                    <asp:Button ID="CN_btn_DeleteNetwork" runat="server" CssClass="btn-primary" OnClick="CN_btn_DeleteNetwork_OnClick" OnClientClick="javascript:return confirmAction(this.name);" Text="Delete Network" />
+                    <br />
+                    <br />
+                    <asp:Label ID="CN_lbl_networkinfo" runat="server"></asp:Label>
+                    <br />
+                    <br />
+                    <asp:GridView ID="CN_grid_Results" runat="server"></asp:GridView>
+                    <br />
+                </div>
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="CN_ddl_Region" />
+                <asp:AsyncPostBackTrigger ControlID="CN_btn_CreateNetwork" />
+                <asp:AsyncPostBackTrigger ControlID="CN_btn_DeleteNetwork" />
+            </Triggers>
+        </asp:UpdatePanel>
+    </div>
+    <div id="dialogContent">
+        <p>Click ok to accept</p>
     </div>
 </asp:Content>
